@@ -6,13 +6,13 @@ Rails.application.routes.draw do
 	# root 'welcome#index'
 
 	scope "/api", defaults: {format: :json} do
-		resources :customers, only: [:index, :show, :create, :update, :destroy]
+		resources :reputations, only: [:index, :show, :create, :update, :destroy]
 	end
 
 #	namespace :api, defaults: {format: :json} do
 #		resources :task_lists, only: [:index] do
-#			resources :customers
-#			resources :customers, only: [:index, :create, :update, :destroy]
+#			resources :reputations
+#			resources :reputations, only: [:index, :create, :update, :destroy]
 #		end
 #	end
 

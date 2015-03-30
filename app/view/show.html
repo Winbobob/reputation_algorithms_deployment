@@ -1,16 +1,35 @@
 <html>
-<head>test</head>
+<head>
+  <title>Client</title>
+  <style>
+    input{
+      margin-left: 3%;
+    }
+  </style>
+</head>
 <body>
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/customers" method="post">
-  <input type="text" name="id" value="1" />
-  <input type="text" name="name" value="1" />
-  <input type="text" name="street" value="1" />
-  <input type="text" name="city" value="1" />
-  <input type="text" name="state" value="1" />
-  <input type="text" name="zipcode" value="12345" />
-  <input type="text" name="home_phone" value="919-579-1902" />
-  <input type="text" name="work_phone" value="919-579-1902" />
-  <input type="text" name="email" value="123@ncsu.edu" />
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reputations" method="post">
+<h2>Client send message</h2>
+  <h4>user_alias_name</h4>
+  <input type="text" name="user_alias_name" value="1" /><br/>
+
+  <h4>score_by_reviewer</h4>
+  <input type="text" name="score_by_reviewer" value="98" /><br/>
+
+  <h4>score_by_author</h4>
+  <input type="text" name="score_by_author" value="90" /><br/>
+
+  <h4>score_by_TA</h4>
+  <input type="text" name="score_by_TA" value="94" /><br/>
+
+  <h4>calibration_data</h4>
+  <input type="text_matrics" name="calibration_data" value="0.8" /><br/>
+
+  <h4>text_matrics</h4>
+  <input type="text" name="text_matrics" value="N/A" /><br/>
+
+  <h4>previous_reputation</h4>
+  <input type="text" name="previous_reputation" value="1.2" /><br/><br/>
   <input type="submit"/>
 
 </form>

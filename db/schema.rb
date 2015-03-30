@@ -13,17 +13,17 @@
 
 ActiveRecord::Schema.define(version: 20150325134051) do
 
-  create_table "customers", force: true do |t|
-    t.string   "name",       limit: 255
-    t.string   "street",     limit: 255
-    t.string   "city",       limit: 255
-    t.string   "state",      limit: 255
-    t.string   "zipcode",    limit: 255
-    t.string   "home_phone", limit: 255
-    t.string   "work_phone", limit: 255
-    t.string   "email",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "reputations", force: true do |t|
+    t.string   "user_alias_name",     limit: 255
+    t.float    "score_by_reviewer",   limit: 24
+    t.float    "score_by_author",     limit: 24
+    t.float    "score_by_TA",         limit: 24
+    t.float    "calibration_data",    limit: 24
+    t.string   "text_matrics",        limit: 255
+    t.float    "previous_reputation", limit: 24
+    t.string   "other_data",          limit: 255
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
 end

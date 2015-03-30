@@ -11,23 +11,23 @@ url = 'http://railsapitest.localhost'
 #url = 'http://localhost:3000'
 
 begin
-	# Retrieve all customers:
-	response = RestClient.get "#{url}/api/customers"
+	# Retrieve all reputations:
+	response = RestClient.get "#{url}/api/reputations"
 
-	# Retrieve a single customer:
-	#response = RestClient.get "#{url}/api/customers/8"
+	# Retrieve a single reputation:
+	#response = RestClient.get "#{url}/api/reputations/8"
 
-	# Create a customer:
-	#response = RestClient.post "#{url}/api/customers",
-	# {:customer => {:name => 'customerF', :street => '567 Preston Rd.', :city => 'Dallas', :state => 'Texas',
-	#  :zipcode => '76230' , :home_phone => '214-555-1212', :work_phone => '', :email => 'customerF@example.com'}}
+	# Create a reputation:
+	#response = RestClient.post "#{url}/api/reputations",
+	# {:reputation => {:name => 'reputationF', :street => '567 Preston Rd.', :city => 'Dallas', :state => 'Texas',
+	#  :zipcode => '76230' , :home_phone => '214-555-1212', :work_phone => '', :email => 'reputationF@example.com'}}
 
-	# Update a customer:
-	#response = RestClient.put "#{url}/api/customers/13", {:customer => {:name => ''}}
-	#response = RestClient.put "#{url}/api/customers/13", {:customer => {:name => 'customerG'}}
+	# Update a reputation:
+	#response = RestClient.put "#{url}/api/reputations/13", {:reputation => {:name => ''}}
+	#response = RestClient.put "#{url}/api/reputations/13", {:reputation => {:name => 'reputationG'}}
 
-	# Delete a customer:
-	#response = RestClient.delete "#{url}/api/customers/13"
+	# Delete a reputation:
+	#response = RestClient.delete "#{url}/api/reputations/13"
 
 	puts "Response code: #{response.code}" 
 	puts "Response body:"
@@ -40,5 +40,5 @@ rescue RestClient::Exception => e
 #	puts "#{e.response.body}" 
 end
 
-#customerF@example.com
+#reputationF@example.com
 
