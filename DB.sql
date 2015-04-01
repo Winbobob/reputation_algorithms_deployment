@@ -16,39 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `assignment`
+-- Table structure for table `assignments`
 --
 
-DROP TABLE IF EXISTS `assignment`;
+DROP TABLE IF EXISTS `assignments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `assignment` (
+CREATE TABLE `assignments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   `task_num` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `client_id` (`client_id`),
-  CONSTRAINT `assignment_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`)
+  CONSTRAINT `assignments_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `assignment`
+-- Dumping data for table `assignments`
 --
 
-LOCK TABLES `assignment` WRITE;
-/*!40000 ALTER TABLE `assignment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `assignment` ENABLE KEYS */;
+LOCK TABLES `assignments` WRITE;
+/*!40000 ALTER TABLE `assignments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assignments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `client`
+-- Table structure for table `clients`
 --
 
-DROP TABLE IF EXISTS `client`;
+DROP TABLE IF EXISTS `clients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `client` (
+CREATE TABLE `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -56,39 +56,39 @@ CREATE TABLE `client` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `client`
+-- Dumping data for table `clients`
 --
 
-LOCK TABLES `client` WRITE;
-/*!40000 ALTER TABLE `client` DISABLE KEYS */;
-/*!40000 ALTER TABLE `client` ENABLE KEYS */;
+LOCK TABLES `clients` WRITE;
+/*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+/*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `reputation`
+-- Table structure for table `reputations`
 --
 
-DROP TABLE IF EXISTS `reputation`;
+DROP TABLE IF EXISTS `reputations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `reputation` (
+CREATE TABLE `reputations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `task_id` int(11) NOT NULL,
   `reputation_score` float NOT NULL,
   `user_reputation` float NOT NULL,
   PRIMARY KEY (`id`),
   KEY `task_id` (`task_id`),
-  CONSTRAINT `reputation_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`)
+  CONSTRAINT `reputations_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `reputation`
+-- Dumping data for table `reputations`
 --
 
-LOCK TABLES `reputation` WRITE;
-/*!40000 ALTER TABLE `reputation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `reputation` ENABLE KEYS */;
+LOCK TABLES `reputations` WRITE;
+/*!40000 ALTER TABLE `reputations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reputations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -110,18 +110,17 @@ CREATE TABLE `schema_migrations` (
 
 LOCK TABLES `schema_migrations` WRITE;
 /*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
-INSERT INTO `schema_migrations` VALUES ('20150325134051');
 /*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `score`
+-- Table structure for table `scores`
 --
 
-DROP TABLE IF EXISTS `score`;
+DROP TABLE IF EXISTS `scores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `score` (
+CREATE TABLE `scores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `reviewer_id` int(11) NOT NULL,
   `reviewee_id` int(11) NOT NULL,
@@ -131,28 +130,28 @@ CREATE TABLE `score` (
   PRIMARY KEY (`id`),
   KEY `reviewer_id` (`reviewer_id`),
   KEY `reviewee_id` (`reviewee_id`),
-  CONSTRAINT `score_ibfk_1` FOREIGN KEY (`reviewer_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `score_ibfk_2` FOREIGN KEY (`reviewee_id`) REFERENCES `team` (`id`)
+  CONSTRAINT `scores_ibfk_1` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `scores_ibfk_2` FOREIGN KEY (`reviewee_id`) REFERENCES `teams` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `score`
+-- Dumping data for table `scores`
 --
 
-LOCK TABLES `score` WRITE;
-/*!40000 ALTER TABLE `score` DISABLE KEYS */;
-/*!40000 ALTER TABLE `score` ENABLE KEYS */;
+LOCK TABLES `scores` WRITE;
+/*!40000 ALTER TABLE `scores` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scores` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `task`
+-- Table structure for table `tasks`
 --
 
-DROP TABLE IF EXISTS `task`;
+DROP TABLE IF EXISTS `tasks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `task` (
+CREATE TABLE `tasks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `assignment_id` int(11) NOT NULL,
   `PR_max_score` float NOT NULL,
@@ -161,95 +160,95 @@ CREATE TABLE `task` (
   `BR_min_score` float NOT NULL,
   PRIMARY KEY (`id`),
   KEY `assignment_id` (`assignment_id`),
-  CONSTRAINT `task_ibfk_1` FOREIGN KEY (`assignment_id`) REFERENCES `assignment` (`id`)
+  CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `task`
+-- Dumping data for table `tasks`
 --
 
-LOCK TABLES `task` WRITE;
-/*!40000 ALTER TABLE `task` DISABLE KEYS */;
-/*!40000 ALTER TABLE `task` ENABLE KEYS */;
+LOCK TABLES `tasks` WRITE;
+/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `team`
+-- Table structure for table `team_mappings`
 --
 
-DROP TABLE IF EXISTS `team`;
+DROP TABLE IF EXISTS `team_mappings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `team` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `client_id` (`client_id`),
-  CONSTRAINT `team_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `team`
---
-
-LOCK TABLES `team` WRITE;
-/*!40000 ALTER TABLE `team` DISABLE KEYS */;
-/*!40000 ALTER TABLE `team` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `team_mapping`
---
-
-DROP TABLE IF EXISTS `team_mapping`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `team_mapping` (
+CREATE TABLE `team_mappings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `team_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `team_id` (`team_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `team_mapping_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`),
-  CONSTRAINT `team_mapping_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `team_mappings_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`),
+  CONSTRAINT `team_mappings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `team_mapping`
+-- Dumping data for table `team_mappings`
 --
 
-LOCK TABLES `team_mapping` WRITE;
-/*!40000 ALTER TABLE `team_mapping` DISABLE KEYS */;
-/*!40000 ALTER TABLE `team_mapping` ENABLE KEYS */;
+LOCK TABLES `team_mappings` WRITE;
+/*!40000 ALTER TABLE `team_mappings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `team_mappings` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user`
+-- Table structure for table `teams`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `teams`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `teams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `client_id` (`client_id`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`)
+  CONSTRAINT `teams_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `teams`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `teams` WRITE;
+/*!40000 ALTER TABLE `teams` DISABLE KEYS */;
+/*!40000 ALTER TABLE `teams` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `client_id` (`client_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -261,4 +260,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-30 20:02:38
+-- Dump completed on 2015-03-31 21:47:52
