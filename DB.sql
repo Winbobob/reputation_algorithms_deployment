@@ -25,11 +25,10 @@ DROP TABLE IF EXISTS `assignments`;
 CREATE TABLE `assignments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) DEFAULT NULL,
-  `task_num` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_rails_b7d5ca267d` (`client_id`),
-  CONSTRAINT `fk_rails_b7d5ca267d` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `fk_rails_3578d28443` (`client_id`),
+  CONSTRAINT `fk_rails_3578d28443` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +37,7 @@ CREATE TABLE `assignments` (
 
 LOCK TABLES `assignments` WRITE;
 /*!40000 ALTER TABLE `assignments` DISABLE KEYS */;
+INSERT INTO `assignments` VALUES (1,1),(2,1);
 /*!40000 ALTER TABLE `assignments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,7 +52,7 @@ CREATE TABLE `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,34 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+INSERT INTO `clients` VALUES (1,'Expertiza'),(2,'Expertiza');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `entities`
+--
+
+DROP TABLE IF EXISTS `entities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_rails_8d8c29a854` (`client_id`),
+  CONSTRAINT `fk_rails_8d8c29a854` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `entities`
+--
+
+LOCK TABLES `entities` WRITE;
+/*!40000 ALTER TABLE `entities` DISABLE KEYS */;
+INSERT INTO `entities` VALUES (1,1),(2,1);
+/*!40000 ALTER TABLE `entities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -73,13 +100,15 @@ DROP TABLE IF EXISTS `reputations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reputations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reviewer_id` int(11) DEFAULT NULL,
   `task_id` int(11) DEFAULT NULL,
-  `reputation_score` float DEFAULT NULL,
-  `user_reputation` float DEFAULT NULL,
+  `score` float DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_rails_44dd0bf9e4` (`task_id`),
-  CONSTRAINT `fk_rails_44dd0bf9e4` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `fk_rails_722b2d85a4` (`task_id`),
+  KEY `fk_rails_a953ec6acd` (`reviewer_id`),
+  CONSTRAINT `fk_rails_a953ec6acd` FOREIGN KEY (`reviewer_id`) REFERENCES `reviewers` (`id`),
+  CONSTRAINT `fk_rails_722b2d85a4` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +117,62 @@ CREATE TABLE `reputations` (
 
 LOCK TABLES `reputations` WRITE;
 /*!40000 ALTER TABLE `reputations` DISABLE KEYS */;
+INSERT INTO `reputations` VALUES (1,1,1,0.8),(2,1,1,0.8);
 /*!40000 ALTER TABLE `reputations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reviewed_entity_matrices`
+--
+
+DROP TABLE IF EXISTS `reviewed_entity_matrices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reviewed_entity_matrices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `entity_id` int(11) DEFAULT NULL,
+  `score` float DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_rails_cf2a8c1b4c` (`entity_id`),
+  CONSTRAINT `fk_rails_cf2a8c1b4c` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reviewed_entity_matrices`
+--
+
+LOCK TABLES `reviewed_entity_matrices` WRITE;
+/*!40000 ALTER TABLE `reviewed_entity_matrices` DISABLE KEYS */;
+INSERT INTO `reviewed_entity_matrices` VALUES (1,1,27,'PR'),(2,1,27,'PR');
+/*!40000 ALTER TABLE `reviewed_entity_matrices` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reviewers`
+--
+
+DROP TABLE IF EXISTS `reviewers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reviewers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_rails_a41e7657a3` (`client_id`),
+  CONSTRAINT `fk_rails_a41e7657a3` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reviewers`
+--
+
+LOCK TABLES `reviewers` WRITE;
+/*!40000 ALTER TABLE `reviewers` DISABLE KEYS */;
+INSERT INTO `reviewers` VALUES (1,1),(2,1),(3,1);
+/*!40000 ALTER TABLE `reviewers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -110,39 +194,42 @@ CREATE TABLE `schema_migrations` (
 
 LOCK TABLES `schema_migrations` WRITE;
 /*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
-INSERT INTO `schema_migrations` VALUES ('20150401015135'),('20150401015323'),('20150401015337'),('20150401015358'),('20150401015409'),('20150401015418'),('20150401015427'),('20150401015438');
+INSERT INTO `schema_migrations` VALUES ('20150401015135'),('20150401015323'),('20150401015337'),('20150401015357'),('20150401015358'),('20150401015409'),('20150401015427'),('20150401015438');
 /*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `scores`
+-- Table structure for table `score_matrices`
 --
 
-DROP TABLE IF EXISTS `scores`;
+DROP TABLE IF EXISTS `score_matrices`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `scores` (
+CREATE TABLE `score_matrices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `reviewer_id` int(11) DEFAULT NULL,
-  `reviewee_id` int(11) DEFAULT NULL,
-  `peer_review_score` float DEFAULT NULL,
-  `peer_review_length` int(11) DEFAULT NULL,
+  `entity_id` int(11) DEFAULT NULL,
+  `task_id` int(11) DEFAULT NULL,
+  `score` float DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_rails_fa5fcaa479` (`reviewer_id`),
-  KEY `fk_rails_2e2f3c7646` (`reviewee_id`),
-  CONSTRAINT `fk_rails_2e2f3c7646` FOREIGN KEY (`reviewee_id`) REFERENCES `teams` (`id`),
-  CONSTRAINT `fk_rails_fa5fcaa479` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `fk_rails_4c45324ee0` (`reviewer_id`),
+  KEY `fk_rails_298fbb2196` (`entity_id`),
+  KEY `fk_rails_4059383e93` (`task_id`),
+  CONSTRAINT `fk_rails_4059383e93` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`),
+  CONSTRAINT `fk_rails_298fbb2196` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`),
+  CONSTRAINT `fk_rails_4c45324ee0` FOREIGN KEY (`reviewer_id`) REFERENCES `reviewers` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `scores`
+-- Dumping data for table `score_matrices`
 --
 
-LOCK TABLES `scores` WRITE;
-/*!40000 ALTER TABLE `scores` DISABLE KEYS */;
-/*!40000 ALTER TABLE `scores` ENABLE KEYS */;
+LOCK TABLES `score_matrices` WRITE;
+/*!40000 ALTER TABLE `score_matrices` DISABLE KEYS */;
+INSERT INTO `score_matrices` VALUES (1,1,1,1,27,'123'),(2,1,1,1,27,'123');
+/*!40000 ALTER TABLE `score_matrices` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -160,9 +247,9 @@ CREATE TABLE `tasks` (
   `BR_max_score` float DEFAULT NULL,
   `BR_min_score` float DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_rails_e6e22983fc` (`assignment_id`),
-  CONSTRAINT `fk_rails_e6e22983fc` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `fk_rails_0b0b8ef2bf` (`assignment_id`),
+  CONSTRAINT `fk_rails_0b0b8ef2bf` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,85 +258,8 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+INSERT INTO `tasks` VALUES (1,1,100,100,100,100),(2,1,100,100,100,100);
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `team_mappings`
---
-
-DROP TABLE IF EXISTS `team_mappings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `team_mappings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `team_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_rails_a957e70e0c` (`team_id`),
-  KEY `fk_rails_dc1a46511e` (`user_id`),
-  CONSTRAINT `fk_rails_dc1a46511e` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `fk_rails_a957e70e0c` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `team_mappings`
---
-
-LOCK TABLES `team_mappings` WRITE;
-/*!40000 ALTER TABLE `team_mappings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `team_mappings` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `teams`
---
-
-DROP TABLE IF EXISTS `teams`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teams` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_rails_6155afefc5` (`client_id`),
-  CONSTRAINT `fk_rails_6155afefc5` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `teams`
---
-
-LOCK TABLES `teams` WRITE;
-/*!40000 ALTER TABLE `teams` DISABLE KEYS */;
-/*!40000 ALTER TABLE `teams` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_rails_6f2dd4a672` (`client_id`),
-  CONSTRAINT `fk_rails_6f2dd4a672` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -261,4 +271,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-01  0:22:50
+-- Dump completed on 2015-04-01 18:53:00
