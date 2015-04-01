@@ -38,7 +38,7 @@ class AssignmentsController < ApplicationController
 
 	private
 		def assignment_params
-		  params.permit(:client_id, :task_num)
+		  params.permit(:client_id)
 #		  params.require(:assignment).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
 		end
 

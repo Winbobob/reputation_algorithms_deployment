@@ -15,33 +15,54 @@ ActiveRecord::Schema.define(version: 20150401015438) do
 
   create_table "assignments", force: true do |t|
     t.integer "client_id", limit: 4
-    t.integer "task_num",  limit: 4
   end
 
-  add_index "assignments", ["client_id"], name: "fk_rails_b7d5ca267d", using: :btree
+  add_index "assignments", ["client_id"], name: "fk_rails_3578d28443", using: :btree
 
   create_table "clients", force: true do |t|
     t.string "client_name", limit: 255
   end
 
+  create_table "entities", force: true do |t|
+    t.integer "client_id", limit: 4
+  end
+
+  add_index "entities", ["client_id"], name: "fk_rails_8d8c29a854", using: :btree
+
   create_table "reputations", force: true do |t|
-    t.integer "task_id",          limit: 4
-    t.float   "reputation_score", limit: 24
-    t.float   "user_reputation",  limit: 24
+    t.integer "reviewer_id", limit: 4
+    t.integer "task_id",     limit: 4
+    t.float   "score",       limit: 24
   end
 
-  add_index "reputations", ["task_id"], name: "fk_rails_44dd0bf9e4", using: :btree
+  add_index "reputations", ["reviewer_id"], name: "fk_rails_a953ec6acd", using: :btree
+  add_index "reputations", ["task_id"], name: "fk_rails_722b2d85a4", using: :btree
 
-  create_table "scores", force: true do |t|
-    t.integer "reviewer_id",        limit: 4
-    t.integer "reviewee_id",        limit: 4
-    t.float   "peer_review_score",  limit: 24
-    t.integer "peer_review_length", limit: 4
-    t.string  "type",               limit: 255
+  create_table "reviewed_entity_matrices", force: true do |t|
+    t.integer "entity_id", limit: 4
+    t.float   "score",     limit: 24
+    t.string  "type",      limit: 255
   end
 
-  add_index "scores", ["reviewee_id"], name: "fk_rails_2e2f3c7646", using: :btree
-  add_index "scores", ["reviewer_id"], name: "fk_rails_fa5fcaa479", using: :btree
+  add_index "reviewed_entity_matrices", ["entity_id"], name: "fk_rails_cf2a8c1b4c", using: :btree
+
+  create_table "reviewers", force: true do |t|
+    t.integer "client_id", limit: 4
+  end
+
+  add_index "reviewers", ["client_id"], name: "fk_rails_a41e7657a3", using: :btree
+
+  create_table "score_matrices", force: true do |t|
+    t.integer "reviewer_id", limit: 4
+    t.integer "entity_id",   limit: 4
+    t.integer "task_id",     limit: 4
+    t.float   "score",       limit: 24
+    t.string  "type",        limit: 255
+  end
+
+  add_index "score_matrices", ["entity_id"], name: "fk_rails_298fbb2196", using: :btree
+  add_index "score_matrices", ["reviewer_id"], name: "fk_rails_4c45324ee0", using: :btree
+  add_index "score_matrices", ["task_id"], name: "fk_rails_4059383e93", using: :btree
 
   create_table "tasks", force: true do |t|
     t.integer "assignment_id", limit: 4
@@ -51,35 +72,16 @@ ActiveRecord::Schema.define(version: 20150401015438) do
     t.float   "BR_min_score",  limit: 24
   end
 
-  add_index "tasks", ["assignment_id"], name: "fk_rails_e6e22983fc", using: :btree
-
-  create_table "team_mappings", force: true do |t|
-    t.integer "team_id", limit: 4
-    t.integer "user_id", limit: 4
-  end
-
-  add_index "team_mappings", ["team_id"], name: "fk_rails_a957e70e0c", using: :btree
-  add_index "team_mappings", ["user_id"], name: "fk_rails_dc1a46511e", using: :btree
-
-  create_table "teams", force: true do |t|
-    t.integer "client_id", limit: 4
-  end
-
-  add_index "teams", ["client_id"], name: "fk_rails_6155afefc5", using: :btree
-
-  create_table "users", force: true do |t|
-    t.integer "client_id", limit: 4
-  end
-
-  add_index "users", ["client_id"], name: "fk_rails_6f2dd4a672", using: :btree
+  add_index "tasks", ["assignment_id"], name: "fk_rails_0b0b8ef2bf", using: :btree
 
   add_foreign_key "assignments", "clients"
+  add_foreign_key "entities", "clients"
+  add_foreign_key "reputations", "reviewers"
   add_foreign_key "reputations", "tasks"
-  add_foreign_key "scores", "teams", column: "reviewee_id"
-  add_foreign_key "scores", "users", column: "reviewer_id"
+  add_foreign_key "reviewed_entity_matrices", "entities"
+  add_foreign_key "reviewers", "clients"
+  add_foreign_key "score_matrices", "entities"
+  add_foreign_key "score_matrices", "reviewers"
+  add_foreign_key "score_matrices", "tasks"
   add_foreign_key "tasks", "assignments"
-  add_foreign_key "team_mappings", "teams"
-  add_foreign_key "team_mappings", "users"
-  add_foreign_key "teams", "clients"
-  add_foreign_key "users", "clients"
 end

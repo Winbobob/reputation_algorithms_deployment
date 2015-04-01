@@ -10,10 +10,10 @@ Rails.application.routes.draw do
 		resources :assignments, only: [:index, :show, :create, :update, :destroy]
 		resources :tasks, only: [:index, :show, :create, :update, :destroy]
 		resources :reputations, only: [:index, :show, :create, :update, :destroy]
-		resources :users, only: [:index, :show, :create, :update, :destroy]
-		resources :teams, only: [:index, :show, :create, :update, :destroy]
-		resources :team_mappings, only: [:index, :show, :create, :update, :destroy]
-		resources :scores, only: [:index, :show, :create, :update, :destroy]
+		resources :reviewers, only: [:index, :show, :create, :update, :destroy]
+		resources :entities, only: [:index, :show, :create, :update, :destroy]
+		resources :score_matrices, only: [:index, :show, :create, :update, :destroy]
+		resources :reviewed_entity_matrices, only: [:index, :show, :create, :update, :destroy]
 	end
 
 #	namespace :api, defaults: {format: :json} do

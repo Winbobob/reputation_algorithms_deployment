@@ -1,5 +1,5 @@
 class Reputation < ActiveRecord::Base
 	validates :task_id, presence: true
-	validates :reputation_score, presence: true
-	validates :user_reputation, presence: true
+	validates :reviewer_id, presence: true
+	validates :score, presence: true
 end

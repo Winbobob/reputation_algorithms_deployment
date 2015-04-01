@@ -21,9 +21,6 @@
   client_id
   <input type="text" name="client_id" value="1" /><br/>
 
-  task_num
-  <input type="text" name="task_num" value="3" /><br/>
-
   <input type="submit"/>
 </form>
 
@@ -47,60 +44,64 @@
   <input type="submit"/>
 </form>
 
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reviewers" method="post">
+<h2>Reviewer</h2>
+  client_id
+  <input type="text" name="client_id" value="1" /><br/>
+
+  <input type="submit"/>
+</form>
+
 <form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reputations" method="post">
 <h2>Reputation</h2>
+  reviewer_id
+  <input type="text" name="reviewer_id" value="94" /><br/>
+
   task_id
   <input type="text" name="task_id" value="1" /><br/>
 
-  reputation_score
-  <input type="text" name="reputation_score" value="94" /><br/>
-
-  user_reputation
-  <input type="text" name="user_reputation" value="0.8" /><br/>
+  score
+  <input type="text" name="score" value="0.8" /><br/>
 
   <input type="submit"/>
 </form>
 
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/teams" method="post">
-<h2>Team</h2>
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/entities" method="post">
+<h2>Entity</h2>
   client_id
   <input type="text" name="client_id" value="1" /><br/>
 
   <input type="submit"/>
 </form>
 
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/users" method="post">
-<h2>User</h2>
-  client_id
-  <input type="text" name="client_id" value="1" /><br/>
 
-  <input type="submit"/>
-</form>
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/team_mappings" method="post">
-<h2>Team mapping</h2>
-  team_id
-  <input type="text" name="team_id" value="1" /><br/>
-
-  user_id
-  <input type="text" name="user_id" value="1" /><br/>
-
-  <input type="submit"/>
-</form>
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/scores" method="post">
-<h2>Score</h2>
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/score_matrices" method="post">
+<h2>Score matrix</h2>
   reviewer_id
   <input type="text" name="reviewer_id" value="1" /><br/>
 
-  reviewee_id
-  <input type="text" name="reviewee_id" value="1" /><br/>
+  entity_id
+  <input type="text" name="entity_id" value="1" /><br/>
 
-  peer_review_score
-  <input type="text" name="peer_review_score" value="88" /><br/>
+  task_id
+  <input type="text" name="task_id" value="1" /><br/>
 
-  peer_review_length
-  <input type="text" name="peer_review_length" value="27" /><br/>
+  score
+  <input type="text" name="score" value="27" /><br/>
+
+  type
+  <input type="text" name="type" value="PR" /><br/>
+
+  <input type="submit"/>
+</form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reviewed_entity_matrices" method="post">
+<h2>Reviewed entity matrix</h2>
+  entity_id
+  <input type="text" name="entity_id" value="1" /><br/>
+
+  score
+  <input type="text" name="score" value="27" /><br/>
 
   type
   <input type="text" name="type" value="PR" /><br/>
