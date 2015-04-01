@@ -6,7 +6,14 @@ Rails.application.routes.draw do
 	# root 'welcome#index'
 
 	scope "/api", defaults: {format: :json} do
+		resources :clients, only: [:index, :show, :create, :update, :destroy]
+		resources :assignments, only: [:index, :show, :create, :update, :destroy]
+		resources :tasks, only: [:index, :show, :create, :update, :destroy]
 		resources :reputations, only: [:index, :show, :create, :update, :destroy]
+		resources :users, only: [:index, :show, :create, :update, :destroy]
+		resources :teams, only: [:index, :show, :create, :update, :destroy]
+		resources :team_mappings, only: [:index, :show, :create, :update, :destroy]
+		resources :scores, only: [:index, :show, :create, :update, :destroy]
 	end
 
 #	namespace :api, defaults: {format: :json} do
