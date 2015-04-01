@@ -38,7 +38,7 @@ class TasksController < ApplicationController
 
 	private
 		def task_params
-		  params.permit(:user_alias_name, :score_by_reviewer, :score_by_author, :score_by_TA, :calibration_data, :text_matrics, :previous_task, :other_data)
+		  params.permit(:assignment_id, :PR_max_score, :PR_min_score, :BR_max_score, :BR_min_score)
 #		  params.require(:task).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
 		end
 

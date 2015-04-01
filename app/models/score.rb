@@ -1,4 +1,6 @@
 class Score < ActiveRecord::Base
+	has_one :user
+	has_one :team
 	validates :reviewer_id, presence: true
 	validates :reviewee_id, presence: true
 	validates :peer_review_score, presence: true

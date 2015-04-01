@@ -8,30 +8,105 @@
   </style>
 </head>
 <body>
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reputations" method="post">
-<h2>Client send message</h2>
-  <h4>user_alias_name</h4>
-  <input type="text" name="user_alias_name" value="1" /><br/>
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/clients" method="post">
+<h2>Client</h2>
+  client_name
+  <input type="text" name="client_name" value="Expertiza" /><br/>
 
-  <h4>score_by_reviewer</h4>
-  <input type="text" name="score_by_reviewer" value="98" /><br/>
-
-  <h4>score_by_author</h4>
-  <input type="text" name="score_by_author" value="90" /><br/>
-
-  <h4>score_by_TA</h4>
-  <input type="text" name="score_by_TA" value="94" /><br/>
-
-  <h4>calibration_data</h4>
-  <input type="text_matrics" name="calibration_data" value="0.8" /><br/>
-
-  <h4>text_matrics</h4>
-  <input type="text" name="text_matrics" value="N/A" /><br/>
-
-  <h4>previous_reputation</h4>
-  <input type="text" name="previous_reputation" value="1.2" /><br/><br/>
   <input type="submit"/>
-
 </form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/assignments" method="post">
+<h2>Assignment</h2>
+  client_id
+  <input type="text" name="client_id" value="1" /><br/>
+
+  task_num
+  <input type="text" name="task_num" value="3" /><br/>
+
+  <input type="submit"/>
+</form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/tasks" method="post">
+<h2>Task</h2>
+  assignment_id
+  <input type="text" name="assignment_id" value="1" /><br/>
+
+  PR_max_score
+  <input type="text" name="PR_max_score" value="100" /><br/>
+
+  PR_min_score
+  <input type="text" name="PR_min_score" value="100" /><br/>
+
+  BR_max_score
+  <input type="text" name="BR_max_score" value="100" /><br/>
+
+  BR_min_score
+  <input type="text" name="BR_min_score" value="100" /><br/>
+
+  <input type="submit"/>
+</form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reputations" method="post">
+<h2>Reputation</h2>
+  task_id
+  <input type="text" name="task_id" value="1" /><br/>
+
+  reputation_score
+  <input type="text" name="reputation_score" value="94" /><br/>
+
+  user_reputation
+  <input type="text" name="user_reputation" value="0.8" /><br/>
+
+  <input type="submit"/>
+</form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/teams" method="post">
+<h2>Team</h2>
+  client_id
+  <input type="text" name="client_id" value="1" /><br/>
+
+  <input type="submit"/>
+</form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/users" method="post">
+<h2>User</h2>
+  client_id
+  <input type="text" name="client_id" value="1" /><br/>
+
+  <input type="submit"/>
+</form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/team_mappings" method="post">
+<h2>Team mapping</h2>
+  team_id
+  <input type="text" name="team_id" value="1" /><br/>
+
+  user_id
+  <input type="text" name="user_id" value="1" /><br/>
+
+  <input type="submit"/>
+</form>
+
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/scores" method="post">
+<h2>Score</h2>
+  reviewer_id
+  <input type="text" name="reviewer_id" value="1" /><br/>
+
+  reviewee_id
+  <input type="text" name="reviewee_id" value="1" /><br/>
+
+  peer_review_score
+  <input type="text" name="peer_review_score" value="88" /><br/>
+
+  peer_review_length
+  <input type="text" name="peer_review_length" value="27" /><br/>
+
+  type
+  <input type="text" name="type" value="PR" /><br/>
+
+  <input type="submit"/>
+</form>
+
 </body>
 </html>

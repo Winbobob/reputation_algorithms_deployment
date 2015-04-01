@@ -38,7 +38,7 @@ class Team_mappingsController < ApplicationController
 
 	private
 		def team_mapping_params
-		  params.permit(:user_alias_name, :score_by_reviewer, :score_by_author, :score_by_TA, :calibration_data, :text_matrics, :previous_team_mapping, :other_data)
+		  params.permit(:team_id, :user_id)
 #		  params.require(:team_mapping).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
 		end
 

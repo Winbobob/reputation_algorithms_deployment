@@ -38,7 +38,7 @@ class ScoresController < ApplicationController
 
 	private
 		def score_params
-		  params.permit(:user_alias_name, :score_by_reviewer, :score_by_author, :score_by_TA, :calibration_data, :text_matrics, :previous_score, :other_data)
+		  params.permit(:reviewer_id, :reviewee_id, :peer_review_score, :peer_review_length, :type)
 #		  params.require(:score).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
 		end
 
