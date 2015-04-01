@@ -24,11 +24,11 @@ DROP TABLE IF EXISTS `assignments`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `assignments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) NOT NULL,
-  `task_num` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `task_num` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `client_id` (`client_id`),
-  CONSTRAINT `assignments_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
+  KEY `fk_rails_b7d5ca267d` (`client_id`),
+  CONSTRAINT `fk_rails_b7d5ca267d` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `clients`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_name` varchar(255) NOT NULL,
+  `client_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -73,12 +73,12 @@ DROP TABLE IF EXISTS `reputations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reputations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) NOT NULL,
-  `reputation_score` float NOT NULL,
-  `user_reputation` float NOT NULL,
+  `task_id` int(11) DEFAULT NULL,
+  `reputation_score` float DEFAULT NULL,
+  `user_reputation` float DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `task_id` (`task_id`),
-  CONSTRAINT `reputations_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`)
+  KEY `fk_rails_44dd0bf9e4` (`task_id`),
+  CONSTRAINT `fk_rails_44dd0bf9e4` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,6 +110,7 @@ CREATE TABLE `schema_migrations` (
 
 LOCK TABLES `schema_migrations` WRITE;
 /*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
+INSERT INTO `schema_migrations` VALUES ('20150401015135'),('20150401015323'),('20150401015337'),('20150401015358'),('20150401015409'),('20150401015418'),('20150401015427'),('20150401015438');
 /*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,16 +123,16 @@ DROP TABLE IF EXISTS `scores`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `scores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `reviewer_id` int(11) NOT NULL,
-  `reviewee_id` int(11) NOT NULL,
-  `peer_review_score` float NOT NULL,
-  `peer_review_length` int(11) NOT NULL,
-  `type` varchar(2) NOT NULL,
+  `reviewer_id` int(11) DEFAULT NULL,
+  `reviewee_id` int(11) DEFAULT NULL,
+  `peer_review_score` float DEFAULT NULL,
+  `peer_review_length` int(11) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `reviewer_id` (`reviewer_id`),
-  KEY `reviewee_id` (`reviewee_id`),
-  CONSTRAINT `scores_ibfk_1` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `scores_ibfk_2` FOREIGN KEY (`reviewee_id`) REFERENCES `teams` (`id`)
+  KEY `fk_rails_fa5fcaa479` (`reviewer_id`),
+  KEY `fk_rails_2e2f3c7646` (`reviewee_id`),
+  CONSTRAINT `fk_rails_2e2f3c7646` FOREIGN KEY (`reviewee_id`) REFERENCES `teams` (`id`),
+  CONSTRAINT `fk_rails_fa5fcaa479` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -153,14 +154,14 @@ DROP TABLE IF EXISTS `tasks`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `assignment_id` int(11) NOT NULL,
-  `PR_max_score` float NOT NULL,
-  `PR_min_score` float NOT NULL,
-  `BR_max_score` float NOT NULL,
-  `BR_min_score` float NOT NULL,
+  `assignment_id` int(11) DEFAULT NULL,
+  `PR_max_score` float DEFAULT NULL,
+  `PR_min_score` float DEFAULT NULL,
+  `BR_max_score` float DEFAULT NULL,
+  `BR_min_score` float DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `assignment_id` (`assignment_id`),
-  CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`)
+  KEY `fk_rails_e6e22983fc` (`assignment_id`),
+  CONSTRAINT `fk_rails_e6e22983fc` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -182,13 +183,13 @@ DROP TABLE IF EXISTS `team_mappings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `team_mappings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `team_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `team_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `team_id` (`team_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `team_mappings_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`),
-  CONSTRAINT `team_mappings_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `fk_rails_a957e70e0c` (`team_id`),
+  KEY `fk_rails_dc1a46511e` (`user_id`),
+  CONSTRAINT `fk_rails_dc1a46511e` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_rails_a957e70e0c` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -210,10 +211,10 @@ DROP TABLE IF EXISTS `teams`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `client_id` (`client_id`),
-  CONSTRAINT `teams_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
+  KEY `fk_rails_6155afefc5` (`client_id`),
+  CONSTRAINT `fk_rails_6155afefc5` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,10 +236,10 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `client_id` (`client_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
+  KEY `fk_rails_6f2dd4a672` (`client_id`),
+  CONSTRAINT `fk_rails_6f2dd4a672` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -260,4 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-31 21:47:52
+-- Dump completed on 2015-04-01  0:22:50
