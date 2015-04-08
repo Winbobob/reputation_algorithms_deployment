@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Client System Send Json to Web Service</title>
+  <script>
+    //obj to render.
+    var obj = {
+      "client_name": "Expertiza",
+      "assignments":{"client_id":1},
+      "tasks":[
+          {
+            "assignment_id":1,
+            "PR_max_score":100, 
+            "PR_min_score":100, 
+            "BR_max_score":100, 
+            "BR_min_score":100
+          }],
+        "reviewers":[
+          {
+            "client_id":1
+          }],
+        "entities":[
+          {
+            "client_id":1
+          }],
+        "reputations":[
+          {
+            "reviewer_id":1,
+            "task_id":1,
+            "score":96
+          }],
+        "score_matrices":[
+          {
+            "reviewer_id":1,
+            "entity_id":1,
+            "task_id":1,
+            "score":96,
+            "type":"PR"
+          }],
+        "reviewed_entity_matrices":[
+          {
+            "entity_id":1,
+            "score":96,
+            "type":"length:55"
+          }]
+    }
+
+    var node = new PrettyJSON.view.Node({
+      el:Jquery('#elem'),
+      data:obj
+    });
+
+  </script>
+</head>
+<body>
+    <div id='elem'></div>
+    <form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/assignments" method="post">
+      <h2>Client</h2>
+      client_name
+    <input type="submit"/>
+</form>
+</body>
+</html>

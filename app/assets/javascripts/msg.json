@@ -1,0 +1,48 @@
+{
+  "client_name": "Expertiza",
+  "assignments": {
+    "client_id": 1
+  },
+  "tasks": [
+    {
+      "assignment_id": 1,
+      "PR_max_score": 100,
+      "PR_min_score": 100,
+      "BR_max_score": 100,
+      "BR_min_score": 100
+    }
+  ],
+  "reviewers": [
+    {
+      "client_id": 1
+    }
+  ],
+  "entities": [
+    {
+      "client_id": 1
+    }
+  ],
+  "reputations": [
+    {
+      "reviewer_id": 1,
+      "task_id": 1,
+      "score": 96
+    }
+  ],
+  "score_matrices": [
+    {
+      "reviewer_id": 1,
+      "entity_id": 1,
+      "task_id": 1,
+      "score": 96,
+      "type": "PR"
+    }
+  ],
+  "reviewed_entity_matrices": [
+    {
+      "entity_id": 1,
+      "score": 96,
+      "type": "length:55"
+    }
+  ]
+}

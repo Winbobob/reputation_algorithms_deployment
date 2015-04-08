@@ -106,6 +106,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  json
   mysql2
   rack-cors
   rails (= 4.2.0.beta4)

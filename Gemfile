@@ -5,6 +5,7 @@ gem 'rails', '4.2.0.beta4'
 
 gem 'rails-api'
 
+gem 'json'
 #gem 'spring', :group => :development
 
 # Mysql
