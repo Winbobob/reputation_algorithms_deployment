@@ -8,24 +8,14 @@
   </style>
 </head>
 <body>
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/clients" method="post">
-<h2>Client</h2>
-  client_name
-  <input type="text" name="client_name" value="Expertiza" /><br/>
-
-  <input type="submit"/>
-</form>
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/assignments" method="post">
-<h2>Assignment</h2>
+<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/posts" method="post">
+<h2>All data</h2>
   client_id
   <input type="text" name="client_id" value="1" /><br/>
 
-  <input type="submit"/>
-</form>
+  client_name
+  <input type="text" name="client_name" value="Expertiza" /><br/>
 
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/tasks" method="post">
-<h2>Task</h2>
   assignment_id
   <input type="text" name="assignment_id" value="1" /><br/>
 
@@ -41,19 +31,6 @@
   BR_min_score
   <input type="text" name="BR_min_score" value="100" /><br/>
 
-  <input type="submit"/>
-</form>
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reviewers" method="post">
-<h2>Reviewer</h2>
-  client_id
-  <input type="text" name="client_id" value="1" /><br/>
-
-  <input type="submit"/>
-</form>
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reputations" method="post">
-<h2>Reputation</h2>
   reviewer_id
   <input type="text" name="reviewer_id" value="94" /><br/>
 
@@ -63,45 +40,8 @@
   score
   <input type="text" name="score" value="0.8" /><br/>
 
-  <input type="submit"/>
-</form>
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/entities" method="post">
-<h2>Entity</h2>
-  client_id
-  <input type="text" name="client_id" value="1" /><br/>
-
-  <input type="submit"/>
-</form>
-
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/score_matrices" method="post">
-<h2>Score matrix</h2>
-  reviewer_id
-  <input type="text" name="reviewer_id" value="1" /><br/>
-
   entity_id
   <input type="text" name="entity_id" value="1" /><br/>
-
-  task_id
-  <input type="text" name="task_id" value="1" /><br/>
-
-  score
-  <input type="text" name="score" value="27" /><br/>
-
-  type
-  <input type="text" name="type" value="PR" /><br/>
-
-  <input type="submit"/>
-</form>
-
-<form accept-charset="UTF-8" action="http://0.0.0.0:3000/api/reviewed_entity_matrices" method="post">
-<h2>Reviewed entity matrix</h2>
-  entity_id
-  <input type="text" name="entity_id" value="1" /><br/>
-
-  score
-  <input type="text" name="score" value="27" /><br/>
 
   type
   <input type="text" name="type" value="PR" /><br/>
