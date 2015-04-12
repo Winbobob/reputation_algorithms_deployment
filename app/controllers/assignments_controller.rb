@@ -13,7 +13,6 @@ class AssignmentsController < ApplicationController
 	end
 
 	def create
-#		assignment_params['client_id'] = @@data_hash['assignments']['client_id']
 		@assignment = Assignment.new(assignment_params)
 		@assignment.save
 		if @assignment.save

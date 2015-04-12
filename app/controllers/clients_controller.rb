@@ -13,6 +13,7 @@ class ClientsController < ApplicationController
 	end
 
 	def create
+		#client_params['client_name'] = 'zhewei'
 		@client = Client.new(client_params)
 		@client.save
 		if @client.save
