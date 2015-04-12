@@ -3,13 +3,12 @@ class PostsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def index
-    @posts = Post.all
-    render json: @posts, status: 200    # OK
+    @repu = calculate_reputation(0.8)
+    render json: @repu, status: 200
   end
 
   def show
-    @post = Post.find(params[:id])
-    render json: @post, status: 200   # OK
+    
   end
 
   def create
@@ -46,8 +45,10 @@ class PostsController < ApplicationController
     @reviewed_entity_matrix = Reviewed_entity_matrix.new({"entity_id"=>post_params['entity_id'], "score"=>post_params['score'], "type"=>post_params['type']})
     @reviewed_entity_matrix.save
 
+    @score = post_params['score']
+
     render json: post_params, status: 201   # Created
-#    redirect_to url_for(:controller => :clients, :action => :create, :client_name => @@post['client_name'])
+#    redirect_to url_for(:controller => :clients, :action => :create, :client_name => post_params['client_name'])
   end
 
   def update
@@ -58,9 +59,11 @@ class PostsController < ApplicationController
   
   end
 
-  def calculate_reputation
-    @@post['score'] = @@post['score'] + Time.now.sec / 60
-    @@post['score'] = @@post['score'] * 0.8 if @@post['score'] > 1
+  #temp reputation algorithm
+  def calculate_reputation(s)
+    s = s + Time.now.sec / 60.0
+    s = (s - 1) * 0.8 if s > 1
+    return s
   end
 
   private
