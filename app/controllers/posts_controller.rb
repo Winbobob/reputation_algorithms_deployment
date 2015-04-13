@@ -14,15 +14,15 @@ class PostsController < ApplicationController
   def create
 #    puts post_params['client_id']
     #insert client data
-    @client = Client.new({"client_name"=>post_params['client_name']})
+    @client = Client.new({"name"=>post_params['client_name']})
     @client.save
 
     #insert assignment data
     @assignment = Assignment.new({"client_id"=>post_params['client_id']})
     @assignment.save
 
-    #insert entity data
-    @entity = Entity.new({"client_id"=>post_params['client_id']})
+    #insert revieweed entity data
+    @entity = Revieweed_entity.new({"client_id"=>post_params['client_id'], "expert_grde"=>post_params['expert_grde']})
     @entity.save
 
     #insert reviewer data
@@ -30,22 +30,20 @@ class PostsController < ApplicationController
     @reviewer.save
 
     #insert task data
-    @task = Task.new({"assignment_id"=>post_params['assignment_id'], "PR_max_score"=>post_params['PR_max_score'], "PR_min_score"=>post_params['PR_min_score'], "BR_max_score"=>post_params['BR_max_score'], "BR_min_score"=>post_params['BR_min_score']})
+    @task = Task.new({"assignment_id"=>post_params['assignment_id'], "name"=>post_params['task_name']})
     @task.save
 
     #insert reputation data
-    @reputation = Reputation.new({"reviewer_id"=>post_params['reviewer_id'], "task_id"=>post_params['task_id'], "score"=>post_params['score']})
+    @reputation = Reputation.new({"reviewer_id"=>post_params['reviewer_id'], "task_id"=>post_params['task_id'], "score"=>post_params['reputation_score']})
     @reputation.save
 
      #insert score metrics data
-    @score_matrix = Score_matrix.new({"reviewer_id"=>post_params['reviewer_id'], "entity_id"=>post_params['entity_id'], "task_id"=>post_params['task_id'], "score"=>post_params['score'], "type"=>post_params['type']})
-    @score_matrix.save
+    @score_metric = Score_metric.new({"reviewer_id"=>post_params['reviewer_id'], "entity_id"=>post_params['entity_id'], "task_id"=>post_params['task_id'], "score"=>post_params['peer_review_score'], "comment"=>post_params['comment'], "type"=>post_params['type']})
+    @score_metric.save
 
-    #insert reviewed entity metrics data
-    @reviewed_entity_matrix = Reviewed_entity_matrix.new({"entity_id"=>post_params['entity_id'], "score"=>post_params['score'], "type"=>post_params['type']})
-    @reviewed_entity_matrix.save
-
-    @score = post_params['score']
+    #insert ground truth data
+    @ground_truth = GroundTruth.new({"user_name"=>post_params['user_name'], "assignment_id"=>post_params['assignment_id'], "grade"=>post_params['grade']})
+    @ground_truth.save
 
     render json: post_params, status: 201   # Created
 #    redirect_to url_for(:controller => :clients, :action => :create, :client_name => post_params['client_name'])
@@ -68,8 +66,7 @@ class PostsController < ApplicationController
 
   private
     def post_params
-      params.permit(:client_id, :client_name, :assignment_id, :PR_max_score, :PR_min_score,:BR_max_score, :BR_min_score, :reviewer_id, :task_id, :score, :entity_id, :type)
-#     params.require(:post).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
+      params.require(:post).permit(:client_id, :client_name, :crypted_key, :assignment_id, :task_id, :task_name, :reviewer_id, :reputation_score, :entity_id, :expert_grde, :peer_review_score, :comment, :type, :user_name, :grade)
     end
 
     def find_post
