@@ -38,8 +38,7 @@ class TasksController < ApplicationController
 
 	private
 		def task_params
-		  params.permit(:assignment_id, :PR_max_score, :PR_min_score, :BR_max_score, :BR_min_score)
-#		  params.require(:task).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
+		  params.require(:task).permit(:assignment_id, :name)
 		end
 
 		def find_task

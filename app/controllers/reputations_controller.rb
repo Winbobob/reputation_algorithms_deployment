@@ -38,8 +38,7 @@ class ReputationsController < ApplicationController
 
 	private
 		def reputation_params
-		  params.permit(:reviewer_id, :task_id, :score)
-#		  params.require(:reputation).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
+		  params.require(:reputation).permit(:reviewer_id, :task_id, :score)
 		end
 
 		def find_reputation

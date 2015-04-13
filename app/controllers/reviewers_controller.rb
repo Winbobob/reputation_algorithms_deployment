@@ -38,8 +38,7 @@ class ReviewersController < ApplicationController
 
 	private
 		def reviewer_params
-		  params.permit(:client_id)
-#		  params.require(:reviewer).permit(:name, :street, :city, :state, :zipcode, :home_phone, :work_phone, :email)
+		  params..require(:reviewer).permit(:client_id)
 		end
 
 		def find_reviewer
