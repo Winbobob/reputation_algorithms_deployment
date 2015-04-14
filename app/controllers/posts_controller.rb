@@ -14,7 +14,7 @@ class PostsController < ApplicationController
   def create
 #    puts post_params['client_id']
     #insert client data
-    @client = Client.new({"name"=>post_params['client_name']})
+    @client = Client.new({"name"=>post_params['client_name'], "crypted_key"=>['crypted_key']})
     @client.save
 
     #insert assignment data
@@ -42,7 +42,7 @@ class PostsController < ApplicationController
     @score_metric.save
 
     #insert ground truth data
-    @ground_truth = GroundTruth.new({"user_name"=>post_params['user_name'], "assignment_id"=>post_params['assignment_id'], "grade"=>post_params['grade']})
+    @ground_truth = Ground_truth.new({"user_name"=>post_params['user_name'], "assignment_id"=>post_params['assignment_id'], "grade"=>post_params['grade']})
     @ground_truth.save
 
     render json: post_params, status: 201   # Created
@@ -66,7 +66,7 @@ class PostsController < ApplicationController
 
   private
     def post_params
-      params.require(:post).permit(:client_id, :client_name, :crypted_key, :assignment_id, :task_id, :task_name, :reviewer_id, :reputation_score, :entity_id, :expert_grde, :peer_review_score, :comment, :type, :user_name, :grade)
+      params.permit(:client_id, :client_name, :crypted_key, :assignment_id, :task_id, :task_name, :reviewer_id, :reputation_score, :entity_id, :expert_grde, :peer_review_score, :comment, :type, :user_name, :grade)
     end
 
     def find_post

@@ -1,19 +1,19 @@
-class GroundTruthController < ApplicationController
+class Ground_truthsController < ApplicationController
 	#before_action :find_ground_truth, only: [:show, :update, :destroy]
 	rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
 	def index
-		@ground_truth = GroundTruth.all
-		render json: @ground_truth, status: 200		# OK
+		@ground_truths = Ground_truth.all
+		render json: @ground_truths, status: 200		# OK
 	end
 
 	def show
-		@ground_truth = GroundTruth.find(params[:id])
+		@ground_truth = Ground_truth.find(params[:id])
 		render json: @ground_truth, status: 200		# OK
 	end
 
 	def create
-		@ground_truth = GroundTruth.new(ground_truth_params)
+		@ground_truth = Ground_truth.new(ground_truth_params)
 		@ground_truth.save
 		if @ground_truth.save
 			render json: @ground_truth, status: 201		# Created
@@ -42,7 +42,7 @@ class GroundTruthController < ApplicationController
 		end
 
 		def find_ground_truth
-			@ground_truth = GroundTruth.find(params[:id])
+			@ground_truth = Ground_truth.find(params[:id])
 		end
 
 		def record_not_found

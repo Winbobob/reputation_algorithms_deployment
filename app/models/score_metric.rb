@@ -1,4 +1,4 @@
-class Score_matrix < ActiveRecord::Base
+class Score_metric < ActiveRecord::Base
 	validates :reviewer_id, presence: true
 	validates :entity_id, presence: true
 	validates :task_id, presence: true
