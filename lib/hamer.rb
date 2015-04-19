@@ -1,10 +1,10 @@
 #Define Submission class and related method
 class Submission
-  attr_accessor :reviews
+  attr_accessor :review_records
 
   def weighted_score
     total_weight = 0.to_f
-    points = reviews.map do |review|
+    points = review_records.map do |review|
       total_weight += review.weight
       review.weight * review.score
     end
@@ -13,8 +13,8 @@ class Submission
   end
 end
 
-#Define Review class, a mapping class (between Submission and Reviewer)
-class Review
+#Define Review_record class, a mapping class (between Submission and Reviewer)
+class Review_record
   attr_accessor :submission
   attr_accessor :reviewer
   attr_accessor :score
@@ -28,12 +28,12 @@ end
 #Define Reviewer class and related methods
 class Reviewer
   attr_accessor :name
-  attr_accessor :reviews
+  attr_accessor :review_records
   attr_accessor :inaccuracy
 
-  def initialize(name, reviews, inaccuracy)
+  def initialize(name, review_records, inaccuracy)
     @name = name
-    @reviews = reviews
+    @review_records = review_records
     @inaccuracy = inaccuracy
   end
 
@@ -42,7 +42,7 @@ class Reviewer
   end
 
   def weight
-    reviews.first.weight
+    review_records.first.weight
   end
 end
 
@@ -73,18 +73,18 @@ def submissions(rogue_score=5)
     puts "s1 = Submission.new"
     s1 = Submission.new
     i = -1
-    @reviews=[]
+    @review_records=[]
     reviewers.map do |reviewer|
-      r= Review.new
+      r= Review_record.new
       r.submission = s1
       r.reviewer = reviewer
-      r.reviewer.reviews ||= []
-      r.reviewer.reviews << r
+      r.reviewer.review_records ||= []
+      r.reviewer.review_records << r
       r.score = submission_scores[i += 1]
       puts r.inspect
-      @reviews << r
+      @review_records << r
     end
-    s1.reviews =@reviews
+    s1.review_records =@review_records
 
     @submissions << s1
     puts "@submission.size "+@submissions.size.to_s
@@ -99,16 +99,16 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
   puts "=================calculate_weighted_scores_and_reputation====================="
   puts 'submission.size:' + submissions.size.to_s
   puts 'reviewers.size:' + reviewers.size.to_s
-  puts 'submissions[1].reviews.size"'
-  puts submissions[1].reviews[1].inspect
-  submissions.each {|s| s.reviews.each {|review| review.weight = 1}}
-  puts submissions[1].reviews[1].inspect
+  puts 'submissions[1].review_records.size"'
+  puts submissions[1].review_records[1].inspect
+  submissions.each {|s| s.review_records.each {|review| review.weight = 1}}
+  puts submissions[1].review_records[1].inspect
 
   # Iterate until convergence
   iterations = 0
   begin
     # Store previous weights to determine convergence
-    previous_weights = submissions.map{|s|s.reviews.map(&:weight)}
+    previous_weights = submissions.map{|s|s.review_records.map(&:weight)}
     puts "=========================previous_weights=========================="
     puts previous_weights
 
@@ -118,23 +118,23 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
     # Pass 1: Calculate reviewer distance from average (inaccuracy)
     submissions.each do |submission|
       # Find current weighted average
-      reviews = submission.reviews
-      weighted_scores = reviews.map{|r|r.score * r.weight}
-      total_weight = reviews.map(&:weight).inject{|sum,x| sum+x}.to_f
+      review_records = submission.review_records
+      weighted_scores = review_records.map{|r|r.score * r.weight}
+      total_weight = review_records.map(&:weight).inject{|sum,x| sum+x}.to_f
       weighted_average = weighted_scores.inject{|sum,x| sum+x}.to_f/total_weight
 
       # Add to the reviewers' inaccuracy average
-      reviews.each do |review|
+      review_records.each do |review|
         reviewer = review.reviewer
         review_inaccuracy = (review.score - weighted_average) ** 2
-        reviewer.inaccuracy += review_inaccuracy / reviewer.reviews.count
+        reviewer.inaccuracy += review_inaccuracy / reviewer.review_records.count
       end
     end
 
     # Pass 2: Use reviewer inaccuracy to calculate new review score weights
     average_inaccuracy = reviewers.map(&:inaccuracy).inject{|sum,x| sum+x} / reviewers.size
     submissions.each do |submission|
-      submission.reviews.each do |review|
+      submission.review_records.each do |review|
         weight = average_inaccuracy / review.reviewer.inaccuracy
         if weight > 2
           weight = 2 + Math.log10(weight - 1)
@@ -144,7 +144,7 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
     end
     iterations += 1
   end while !converged?(previous_weights,
-                        submissions.map{|s|s.reviews.map(&:weight)})
+                        submissions.map{|s|s.review_records.map(&:weight)})
 
   return :iterations => iterations
 end
@@ -167,7 +167,7 @@ end
 reviewers
 # reviewers.each do |reviewer|
 #   puts reviewer.inspect
-#   puts reviewer.reviews
+#   puts reviewer.review_records
 #   puts reviewer.inaccuracy
 # end
 submissions
