@@ -62,19 +62,34 @@ class PostsController < ApplicationController
     #get all entities
     @entities = Revieweed_entity.all
     #get all reviewers
-    @reviewers = Reviewer.all
+    @all_reviewers = Reviewer.find_by_sql('select id from reviewers')
     #create big array to store all entities and reviewers data
     #@entities_and_reviewers = Array.new(@entities.count){Array.new(@reviewers.count)}
     @entities_and_reviewers = Array.new
     #all entities loop
     @entities.each do |entity|
-      @available_reviewers = Score_metric.find_by_sql('select id, reviewer_id from score_metrics where entity_id=' + entity.id.to_s)
-      #each entity array to store related reviewers, create a new empty array
-      @each_entity = Array.new(@reviewers.count)
-      @available_reviewers.each do |reviewer|
-        @each_entity[reviewer.id] = reviewer.reviewer_id.to_i
+      #change @all_reviewers array to simple one, each element is an integer
+      @all_reviewers_simple_array = Array.new
+      @all_reviewers.each do |reviewer|
+        @all_reviewers_simple_array << reviewer.id.to_i
       end
-      @entities_and_reviewers << @each_entity
+      #get reviewers and scores for certain submission
+      #@available_reviewers = Score_metric.find_by_sql('select reviewer_id, score from score_metrics where entity_id=' + entity.id.to_s)
+      
+      #find which position this reviewer is at
+      #@reviewer_position = Reviewer 从reviewer表中找出相对位置，作为数组的index
+
+      #each entity array to store related reviewers, create a new empty array
+      #@each_entity = Array.new(@reviewers.count)
+      @all_reviewers.each_with_index do |reviewer, index|
+        @available_reviewer = Score_metric.find_by_sql('select score from score_metrics where entity_id=' + entity.id.to_s + ' and reviewer_id=' + reviewer.id.to_s)
+        if @available_reviewer != [] 
+          @all_reviewers_simple_array[index] = @available_reviewer[0].score
+        else
+          @all_reviewers_simple_array[index] = nil
+        end
+      end
+      @entities_and_reviewers << @all_reviewers_simple_array
     end
     session[:entities_and_reviewers] = @entities_and_reviewers
     return @entities_and_reviewers
