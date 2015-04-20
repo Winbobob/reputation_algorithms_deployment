@@ -1,5 +1,5 @@
-class PostsController < ApplicationController
-  #before_action :find_post, only: [:show, :update, :destroy]
+class RecordsController < ApplicationController
+  #before_action :find_record, only: [:show, :update, :destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def index
@@ -15,41 +15,41 @@ class PostsController < ApplicationController
   end
 
   def create
-#    puts post_params['client_id']
+#    puts record_params['client_id']
     #insert client data
-    @client = Client.new({"name"=>post_params['client_name'], "crypted_key"=>['crypted_key']})
+    @client = Client.new({"name"=>record_params['client_name'], "crypted_key"=>['crypted_key']})
     @client.save
 
     #insert assignment data
-    @assignment = Assignment.new({"client_id"=>post_params['client_id']})
+    @assignment = Assignment.new({"client_id"=>record_params['client_id']})
     @assignment.save
 
     #insert revieweed entity data
-    @entity = Revieweed_entity.new({"client_id"=>post_params['client_id'], "expert_grde"=>post_params['expert_grde']})
+    @entity = Revieweed_entity.new({"client_id"=>record_params['client_id'], "expert_grde"=>record_params['expert_grde']})
     @entity.save
 
     #insert reviewer data
-    @reviewer = Reviewer.new({"client_id"=>post_params['client_id']})
+    @reviewer = Reviewer.new({"client_id"=>record_params['client_id']})
     @reviewer.save
 
     #insert task data
-    @task = Task.new({"assignment_id"=>post_params['assignment_id'], "name"=>post_params['task_name']})
+    @task = Task.new({"assignment_id"=>record_params['assignment_id'], "name"=>record_params['task_name']})
     @task.save
 
     #insert reputation data
-    @reputation = Reputation.new({"reviewer_id"=>post_params['reviewer_id'], "task_id"=>post_params['task_id'], "score"=>post_params['reputation_score']})
+    @reputation = Reputation.new({"reviewer_id"=>record_params['reviewer_id'], "task_id"=>record_params['task_id'], "score"=>record_params['reputation_score']})
     @reputation.save
 
      #insert score metrics data
-    @score_metric = Score_metric.new({"reviewer_id"=>post_params['reviewer_id'], "entity_id"=>post_params['entity_id'], "task_id"=>post_params['task_id'], "score"=>post_params['peer_review_score'], "comment"=>post_params['comment'], "type"=>post_params['type']})
+    @score_metric = Score_metric.new({"reviewer_id"=>record_params['reviewer_id'], "entity_id"=>record_params['entity_id'], "task_id"=>record_params['task_id'], "score"=>record_params['peer_review_score'], "comment"=>record_params['comment'], "type"=>record_params['type']})
     @score_metric.save
 
     #insert ground truth data
-    @ground_truth = Ground_truth.new({"user_name"=>post_params['user_name'], "assignment_id"=>post_params['assignment_id'], "grade"=>post_params['grade']})
+    @ground_truth = Ground_truth.new({"user_name"=>record_params['user_name'], "assignment_id"=>record_params['assignment_id'], "grade"=>record_params['grade']})
     @ground_truth.save
 
-    render json: post_params, status: 201   # Created
-#    redirect_to url_for(:controller => :clients, :action => :create, :client_name => post_params['client_name'])
+    render json: record_params, status: 201   # Created
+#    redirect_to url_for(:controller => :clients, :action => :create, :client_name => record_params['client_name'])
   end
 
   def update
@@ -106,12 +106,12 @@ class PostsController < ApplicationController
   end
 
   private
-    def post_params
+    def record_params
       params.permit(:client_id, :client_name, :crypted_key, :assignment_id, :task_id, :task_name, :reviewer_id, :reputation_score, :entity_id, :expert_grde, :peer_review_score, :comment, :type, :user_name, :grade)
     end
 
-    def find_post
-      @post = Post.find(params[:id])
+    def find_record
+      @record = Record.find(params[:id])
     end
 
     def record_not_found

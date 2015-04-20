@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 	# root 'welcome#index'
 
 	scope "/api", defaults: {format: :json} do
-		resources :posts, only: [:index, :show, :create, :update, :destroy]
+		resources :records, only: [:index, :show, :create, :update, :destroy]
 		resources :clients, only: [:index, :show, :create, :update, :destroy]
 		resources :assignments, only: [:index, :show, :create, :update, :destroy]
 		resources :tasks, only: [:index, :show, :create, :update, :destroy]
