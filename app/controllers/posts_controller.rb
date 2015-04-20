@@ -3,7 +3,8 @@ class PostsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def index
-    @repu = calculate_reputation(0.8)
+    #@repu = calculate_reputation(0.8)
+    @repu = generate_real_matrices
     render json: @repu, status: 200
   end
 
@@ -55,6 +56,28 @@ class PostsController < ApplicationController
 
   def destroy
   
+  end
+
+  def generate_real_matrices
+    #get all entities
+    @entities = Revieweed_entity.all
+    #get all reviewers
+    @reviewers = Reviewer.all
+    #create big array to store all entities and reviewers data
+    #@entities_and_reviewers = Array.new(@entities.count){Array.new(@reviewers.count)}
+    @entities_and_reviewers = Array.new
+    #all entities loop
+    @entities.each do |entity|
+      @available_reviewers = Score_metric.find_by_sql('select id, reviewer_id from score_metrics where entity_id=' + entity.id.to_s)
+      #each entity array to store related reviewers, create a new empty array
+      @each_entity = Array.new(@reviewers.count)
+      @available_reviewers.each do |reviewer|
+        @each_entity[reviewer.id] = reviewer.reviewer_id.to_i
+      end
+      @entities_and_reviewers << @each_entity
+    end
+    session[:entities_and_reviewers] = @entities_and_reviewers
+    return @entities_and_reviewers
   end
 
   #temp reputation algorithm

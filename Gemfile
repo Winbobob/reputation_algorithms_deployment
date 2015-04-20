@@ -14,7 +14,9 @@ gem 'mysql2'
 # Cross-Origin Resource Sharing (CORS) support
 # Allows cross domain communication from the browser
 gem 'rack-cors', :require => 'rack/cors'
-
+gem 'pry'
+gem 'pry-remote'
+gem 'pry-nav'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

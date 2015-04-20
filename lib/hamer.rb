@@ -55,10 +55,11 @@ def submissions(rogue_score=5)
   #puts "enter new submissions"
   @submissions = []
 
-  scores = [[10,10,9,rogue_score],
-            [3,2,4,rogue_score],
-            [7,4,5,rogue_score],
-            [6,4,5,rogue_score]]
+  #scores = [[10,10,9,rogue_score],
+  #          [3,2,4,rogue_score],
+  #          [7,4,5,rogue_score],
+  #          [6,4,5,rogue_score]]
+  scores = session[:entities_and_reviewers]
   #submission_scores means one row in scores
   scores.each do |submission_scores|
     #puts submission_scores
@@ -172,6 +173,26 @@ def self.converged?(a, b, options={:precision => 2})
   return true
 end
 
+def self.generate_real_matrices
+  #get all entities
+  @entities = Revieweed_entity.all
+  #get all reviewers
+  @reviewers = Reviewer.all
+  #create big array to store all entities and reviewers data
+  #@entities_and_reviewers = Array.new(@entities.count){Array.new(@reviewers.count)}
+  @entities_and_reviewers = Array.new
+  #all entities loop
+  @entities.each do |entity|
+    @available_reviewers = Score_metric.find_by_id('select reviewer_id as reviewer_id from score_metrics where entity_id=' + entity.id.to_s).first.try(:reviewer_id)
+    #each entity array to store related reviewers, create a new empty array
+    @each_entity = Array.new(@available_reviewers.count)
+    @available_reviewers.each_with_index do |reviewer, index|
+      @each_entity[index] = reviewer.to_i
+    end
+    @entities_and_reviewers << @each_entity
+  end
+end
+
 #initialize
 reviewers
 submissions
@@ -191,3 +212,4 @@ puts '================================================='
   end
 end
 calculate_weighted_scores_and_reputation(@submissions, @reviewers)
+generate_real_matrices
