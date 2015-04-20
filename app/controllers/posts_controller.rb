@@ -5,7 +5,9 @@ class PostsController < ApplicationController
   def index
     #@repu = calculate_reputation(0.8)
     @repu = generate_real_matrices
-    render json: @repu, status: 200
+    #render json: @repu, status: 200
+    render json: @all_reviewers_simple_array, status: 200
+
   end
 
   def show
@@ -73,6 +75,7 @@ class PostsController < ApplicationController
       @all_reviewers.each do |reviewer|
         @all_reviewers_simple_array << reviewer.id.to_i
       end
+      print @all_reviewers_simple_array
       #get reviewers and scores for certain submission
       #@available_reviewers = Score_metric.find_by_sql('select reviewer_id, score from score_metrics where entity_id=' + entity.id.to_s)
       
