@@ -29,11 +29,15 @@ class Reviewer
   end
 
   def inspect
-    "#<#{self.class.name} name=\"#{name}\" variance=\"#{variance}\" >"
+    "#<#{self.class.name} name=\"#{name}\" variance=\"#{variance}\" reputation=\"#{reputation}\">"
   end
 
   def weight
-    review_records.reviewer.reputation
+    if !review_records == []
+      review_records.first.weight
+    else
+      0
+    end
   end
 end
 
@@ -44,7 +48,7 @@ def reviewers
   @reviewers = []
   @all_reviewers_simple_array = [4842, 5049, 5156, 5382, 5423, 5503, 5505, 5506, 5507, 5508, 5509, 5510, 5511, 5512, 5513, 5517, 5518, 5519, 5521, 5522, 5523, 5524, 5525, 5528, 5529, 5530, 5531, 5532, 5534, 5535, 5536, 5537, 5538, 5540, 5541, 5542, 5544, 5546, 5547, 5548, 5549, 5550, 5551, 5552, 5553, 5554, 5555, 5556, 5557, 5558, 5559, 5560, 5561, 5562, 5563, 5564, 5566, 5568, 5569, 5570, 5572, 5573, 5574, 5575, 5576, 5578, 5579, 5580, 5581, 5583, 5584, 5586, 5588, 5589, 5590, 5591, 5592, 5593, 5594, 5596, 5597, 5598, 5599, 5600, 5601, 5602]
   @all_reviewers_simple_array.each do |letter| # A-D: 4 reviewers
-    @reviewers << Reviewer.new(letter.to_s, [], 0)
+    @reviewers << Reviewer.new(letter.to_s, [], 1)
   end
   return @reviewers
 end
@@ -104,12 +108,8 @@ end
 def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
   # Initialize weights
   puts "=================calculate_weighted_scores_and_reputation====================="
-  #puts 'submission.size:' + submissions.size.to_s
-  #puts 'reviewers.size:' + reviewers.size.to_s
-  #puts submissions[1].review_records[1].inspect
   submissions.each {|s| s.review_records.each {|review| review.weight = 1}}
   reviewers.each {|reviewer| reviewer.reputation = 1}
-  #puts submissions[1].review_records[1].inspect
 
   # Iterate until convergence
   iterations = 0
@@ -127,14 +127,19 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
       # Find current weighted average
       review_records = submission.review_records
       weighted_scores = review_records.map{|r|r.score * r.weight}
-      total_weight = review_records.map(&:weight).inject{|sum,x| sum+x}.to_f
-      weighted_average = weighted_scores.inject{|sum,x| sum+x}.to_f/total_weight
+      sum_weight = review_records.map(&:weight).inject{|sum,x| sum+x}.to_f
+      predicted_score = weighted_scores.inject{|sum,x| sum+x}.to_f/sum_weight
 
       # Add to the reviewers' variance average
       review_records.each do |review|
         reviewer = review.reviewer
-        review_variance = (review.score - weighted_average) ** 2
-        reviewer.variance += review_variance / reviewer.review_records.count
+        review_variance = (review.score - predicted_score) ** 2
+        if review_variance==0
+          review_variance=0.01
+        end
+        if reviewer.review_records.count!=0
+          reviewer.variance += review_variance / reviewer.review_records.count
+        end
       end
     end
 
@@ -152,14 +157,6 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
     end
     iterations += 1
 
-    puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    puts reviewers.size
-    reviewers.each do |reviewer|
-      puts reviewer.inspect
-    end
-    puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    puts reviewers.map(&:weight)
-    puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
   end while !converged?(previous_weights,
                         reviewers.map(&:weight))
 
@@ -168,7 +165,7 @@ end
 
 # Ensure all numbers in lists a and b are equal
 # Options: :precision => Number of digits to round to
-def self.converged?(a, b, options={:precision => 2})
+def self.converged?(a, b, options={:precision => 1})
   raise "a and b must be the same size" unless a.size == b.size
   a.flatten!
   b.flatten!
@@ -184,15 +181,7 @@ end
 #==========================================================================================
 #initialize
 reviewers
-puts "==================  # of reviewers"
-puts reviewers.size
-reviewers.each do |reviewer|
-  puts reviewer.inspect
-end
-puts "==========reviewers finished"
-
 submissions
-puts "============submissions finsished"
 
 #check if review records are associated to reviewers
 #@reviewers.each do |reviewer|
