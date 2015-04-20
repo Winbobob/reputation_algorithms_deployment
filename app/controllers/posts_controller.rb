@@ -5,8 +5,8 @@ class PostsController < ApplicationController
   def index
     #@repu = calculate_reputation(0.8)
     @repu = generate_real_matrices
-    #render json: @repu, status: 200
-    render json: @all_reviewers_simple_array, status: 200
+    render json: @repu, status: 200
+    #render json: @all_reviewers_simple_array, status: 200
 
   end
 
