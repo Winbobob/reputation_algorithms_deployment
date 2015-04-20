@@ -157,8 +157,9 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
     end
     iterations += 1
 
-  end while !converged?(previous_weights,
-                        reviewers.map(&:weight))
+    current_weights = reviewers.map(&:reputation)
+
+  end while converged?(previous_weights,current_weights)
 
   return :iterations => iterations
 end
@@ -171,11 +172,16 @@ def self.converged?(a, b, options={:precision => 1})
   b.flatten!
 
   p = options[:precision]
-  a.each_with_index do |num, i|
-    return false unless num.to_f.round(p) == b[i].to_f.round(p)
-  end
+  a.map! {|num| num.to_f.round(p)}
+  b.map! {|num| num.to_f.round(p)}
 
-  return true
+  #judge initial situation
+  if (a.uniq.length == 1) && (b.uniq.length == 1)
+    return true
+  else
+    result = !(a == b)
+    return result
+  end
 end
 
 #==========================================================================================
