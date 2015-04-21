@@ -62,7 +62,7 @@ class RecordsController < ApplicationController
 
   def generate_real_matrices
     #get all entities
-    @entities = Revieweed_entity.all
+    @entities = Reviewed_entity.all
     #get all reviewers
     @all_reviewers = Reviewer.find_by_sql('select id from reviewers')
     #create big array to store all entities and reviewers data
@@ -85,7 +85,7 @@ class RecordsController < ApplicationController
       #each entity array to store related reviewers, create a new empty array
       #@each_entity = Array.new(@reviewers.count)
       @all_reviewers.each_with_index do |reviewer, index|
-        @available_reviewer = Score_metric.find_by_sql('select score from score_metrics where entity_id=' + entity.id.to_s + ' and reviewer_id=' + reviewer.id.to_s)
+        @available_reviewer = Score_metric.find_by_sql('select score from score_metrics where entity_id=' + entity.id.to_s + ' and reviewer_id=' + reviewer.id.to_s + ' and task_id = 5')
         if @available_reviewer != [] 
           @all_reviewers_simple_array[index] = @available_reviewer[0].score
         else
