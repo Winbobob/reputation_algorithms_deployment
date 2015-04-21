@@ -25,7 +25,7 @@ class RecordsController < ApplicationController
     @assignment.save
 
     #insert revieweed entity data
-    @entity = Revieweed_entity.new({"client_id"=>record_params['client_id'], "expert_grde"=>record_params['expert_grde']})
+    @entity = Reviewed_entity.new({"client_id"=>record_params['client_id'], "expert_grde"=>record_params['expert_grde']})
     @entity.save
 
     #insert reviewer data
