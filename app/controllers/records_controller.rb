@@ -63,6 +63,7 @@ class RecordsController < ApplicationController
   def generate_real_matrices
     #get all entities
     @entities = Reviewed_entity.all
+
     #get all reviewers
     @all_reviewers = Reviewer.find_by_sql('select id from reviewers')
     #create big array to store all entities and reviewers data
@@ -71,17 +72,22 @@ class RecordsController < ApplicationController
     #all entities loop
     @entities.each do |entity|
       #change @all_reviewers array to simple one, each element is an integer
+      puts "================all_reviewers======================="
       @all_reviewers_simple_array = Array.new
       @all_reviewers.each do |reviewer|
         @all_reviewers_simple_array << reviewer.id.to_i
       end
       print @all_reviewers_simple_array
+      #get expert_grades of all submissions
+      puts "================all_expert_grades======================="
+      @all_expert_grades = Array.new
+      @entities.each_with_index do |entity|
+        @all_expert_grades << entity.expert_grade.to_f
+      end
+      print @all_expert_grades
       #get reviewers and scores for certain submission
       #@available_reviewers = Score_metric.find_by_sql('select reviewer_id, score from score_metrics where entity_id=' + entity.id.to_s)
       
-      #find which position this reviewer is at
-      #@reviewer_position = Reviewer 从reviewer表中找出相对位置，作为数组的index
-
       #each entity array to store related reviewers, create a new empty array
       #@each_entity = Array.new(@reviewers.count)
       @all_reviewers.each_with_index do |reviewer, index|
