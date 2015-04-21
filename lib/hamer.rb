@@ -168,6 +168,17 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
 
   end while converged?(previous_weights,current_weights)
 
+  final_weights = reviewers.map(&:reputation)
+  puts "=========================final_weights=========================="
+  #puts final_weights
+  @reviewers.each_with_index do |reviewer, index|
+    if reviewer.review_records.uniq != [nil]
+      puts @all_reviewers_simple_array[index].to_s + ": " + final_weights[index].to_s
+    else
+      puts @all_reviewers_simple_array[index].to_s + ": N/A" 
+    end
+  end
+
   return :iterations => iterations
 end
 
