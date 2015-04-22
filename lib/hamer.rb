@@ -176,7 +176,7 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
   puts "=========================final_weights=========================="
   #puts final_weights
   @reviewers.each_with_index do |reviewer, index|
-    if reviewer.review_records.uniq != [nil]
+    if reviewer.review_records.size>0
       puts @all_reviewers_simple_array[index].to_s + ": " + final_weights[index].to_s
     else
       puts @all_reviewers_simple_array[index].to_s + ": N/A" 
