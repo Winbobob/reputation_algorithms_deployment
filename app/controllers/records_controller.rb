@@ -21,11 +21,11 @@ class RecordsController < ApplicationController
     @client.save
 
     #insert assignment data
-    @assignment = Assignment.new({"client_id"=>record_params['client_id']})
+    @assignment = Assignment.new({"client_id"=>record_params['client_id'], "score_maximum"=>100.0, "score_minimum"=>0.0})
     @assignment.save
 
     #insert revieweed entity data
-    @entity = Reviewed_entity.new({"client_id"=>record_params['client_id'], "expert_grde"=>record_params['expert_grde']})
+    @entity = Reviewed_entity.new({"client_id"=>record_params['client_id'], "expert_grade"=>record_params['expert_grde']})
     @entity.save
 
     #insert reviewer data
@@ -44,11 +44,7 @@ class RecordsController < ApplicationController
     @score_metric = Score_metric.new({"reviewer_id"=>record_params['reviewer_id'], "entity_id"=>record_params['entity_id'], "task_id"=>record_params['task_id'], "score"=>record_params['peer_review_score'], "comment"=>record_params['comment'], "type"=>record_params['type']})
     @score_metric.save
 
-    #insert ground truth data
-    @ground_truth = Ground_truth.new({"user_name"=>record_params['user_name'], "assignment_id"=>record_params['assignment_id'], "grade"=>record_params['grade']})
-    @ground_truth.save
-
-    render json: record_params, status: 201   # Created
+     render json: record_params, status: 201   # Created
 #    redirect_to url_for(:controller => :clients, :action => :create, :client_name => record_params['client_name'])
   end
 
@@ -62,7 +58,7 @@ class RecordsController < ApplicationController
 
   def generate_real_matrices
     #get all entities
-    @entities = Reviewed_entity.find_by_sql("select * from reviewed_entities where id in (select entity_id from score_metrics where task_id=1);" ) 
+    @entities = Reviewed_entity.find_by_sql("select * from reviewed_entities where id in (select entity_id from score_metrics where task_id=2);" ) 
 
     #get all reviewers
     @all_reviewers = Reviewer.find_by_sql('select id from reviewers')
@@ -91,7 +87,7 @@ class RecordsController < ApplicationController
       #each entity array to store related reviewers, create a new empty array
       #@each_entity = Array.new(@reviewers.count)
       @all_reviewers.each_with_index do |reviewer, index|
-        @available_reviewer = Score_metric.find_by_sql('select score from score_metrics where entity_id=' + entity.id.to_s + ' and reviewer_id=' + reviewer.id.to_s + ' and task_id = 1')
+        @available_reviewer = Score_metric.find_by_sql('select score from score_metrics where entity_id=' + entity.id.to_s + ' and reviewer_id=' + reviewer.id.to_s + ' and task_id = 2')
         if @available_reviewer != [] 
           @all_reviewers_simple_array[index] = @available_reviewer[0].score
         else
