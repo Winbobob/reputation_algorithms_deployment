@@ -126,6 +126,9 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
     i=0
     submissions.each do |submission|
       submission.temp_score=@expert_grades[i]
+      if submission.temp_score>100
+        submission.temp_score=100
+      end
       i=i+1
     end
 
