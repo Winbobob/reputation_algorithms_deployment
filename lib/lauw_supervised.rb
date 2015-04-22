@@ -130,9 +130,16 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
       sum_leniency=0.0
       reviewer.review_records.each do |rr|
         if rr.score!=0
-          sum_leniency=sum_leniency+(rr.score-rr.submission.temp_score)/(rr.score)
+          temp_leniency = (rr.score-rr.submission.temp_score)/(rr.score)
+          if temp_leniency>1
+            temp_leniency=1
+          end
+          if temp_leniency<-1
+            temp_leniency=-1
+          end
+          sum_leniency=sum_leniency+temp_leniency
         else
-          sum_leniency=sum_leniency+(rr.score-rr.submission.temp_score)/1
+          sum_leniency=sum_leniency+(rr.score-rr.submission.temp_score)/rr.submission.temp_score
         end
 
       end
