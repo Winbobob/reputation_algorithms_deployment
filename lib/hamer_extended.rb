@@ -104,9 +104,13 @@ end
 
 
 def self.add_review_records_to_reviewers(scores)
+  #initialize review records list for each reviewer
   @reviewers.each do |reviewer|
-    scores.each do |row|
-      reviewer.review_records << row[@reviewers.index(reviewer)]
+    reviewer.review_records=[]
+  end
+  @submissions.each do |submission|
+    submission.review_records.each do |rr|
+      rr.reviewer.review_records << rr
     end
   end
 end
