@@ -120,31 +120,36 @@ def self.calculate_weighted_scores_and_reputation(submissions, reviewers)
         sum_weighted_grades=sum_weighted_grades+rr.score*(1-alpha*rr.reviewer.leniency)
       end
       submission.temp_score=sum_weighted_grades.to_f/submission.review_records.size
+      puts "temp_score=" + submission.temp_score.to_s
     end
 
     #Pass 2: calculate leniencies for each reviewer
     reviewers.each do |reviewer|
       sum_leniency=0.0
       reviewer.review_records.each do |rr|
-        sum_leniency=sum_leniency+(rr.score-rr.submission.temp_score)
+        sum_leniency=sum_leniency+(rr.score-rr.submission.temp_score)/rr.score
       end
-      reviewer.leniency=sum_leniency/reviewer.review_records.size
+
+      if reviewer.review_records.size==0
+        reviewer.leniency=0
+      else
+        reviewer.leniency=sum_leniency/reviewer.review_records.size
+      end
     end
     iterations += 1
 
     current_leniency = reviewers.map(&:leniency)
   end while converged?(previous_leniency,current_leniency)
-
   #for each reviewer, use absolute value of leniency as reputation. At the same time make 1 the highest reputation and 0 the lowest
   reviewers.each do |reviewer|
-    reviwer.reputation=1-(reviewer.leniency).abs
+    reviewer.reputation=1-(reviewer.leniency).abs
   end
 
   #for each reviewer, if no peer-review has been done in current task,  reputation =N/A
   final_reputation = reviewers.map(&:reputation)
   puts "=========================final_weights=========================="
   @reviewers.each_with_index do |reviewer, index|
-    if reviewer.review_records.uniq != [nil]
+    if reviewer.review_records.size>0
       puts @all_reviewers_simple_array[index].to_s + ": " + final_reputation[index].to_s
     else
       puts @all_reviewers_simple_array[index].to_s + ": N/A"
@@ -178,8 +183,5 @@ end
 #initialize
 reviewers
 submissions
-reviewers.each do |reviewer|
-  puts reviewer.review_records.size
-end
 
 calculate_weighted_scores_and_reputation(@submissions, @reviewers)
