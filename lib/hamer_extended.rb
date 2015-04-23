@@ -231,3 +231,24 @@ submissions
 #  end
 #end
 calculate_weighted_scores_and_reputation(@submissions, @reviewers)
+
+puts "=================calculate the diff between weighted final score and expert score============================="
+
+puts "weighted_final_score | expert_grades"
+@submissions.each_with_index do |submission, index|
+  @weighted_final_score = 0.0
+  @weight_sum = 0.0
+  @reviewers.each do |reviewer|
+      if reviewer.review_records.size>0
+        if reviewer.review_records[index] != nil
+          @weighted_final_score += reviewer.reputation * reviewer.review_records[index].score 
+          @weight_sum += reviewer.reputation
+        end
+      end
+  end
+  if @weighted_final_score == 0.0 || @weight_sum == 0.0
+   puts 'N/A  | ' + (@expert_grades[index]).to_s
+  else
+   puts (@weighted_final_score / @weight_sum).round(1).to_s + ' | ' + (@expert_grades[index]).to_s
+  end
+end
